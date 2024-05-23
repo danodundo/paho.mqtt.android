@@ -23,6 +23,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -37,11 +39,13 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import java.util.ArrayList;
 
 public class PahoExampleActivity extends AppCompatActivity{
+
+
     private HistoryAdapter mAdapter;
 
     MqttAndroidClient mqttAndroidClient;
 
-    final String serverUri = "tcp://iot.eclipse.org:1883";
+    final String serverUri = "tcp://109.74.199.112:1883";
 
     String clientId = "ExampleAndroidClient";
     final String subscriptionTopic = "exampleAndroidTopic";
@@ -108,12 +112,6 @@ public class PahoExampleActivity extends AppCompatActivity{
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(false);
 
-
-
-
-
-
-
         try {
             //addToHistory("Connecting to " + serverUri);
             mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
@@ -133,8 +131,6 @@ public class PahoExampleActivity extends AppCompatActivity{
                     addToHistory("Failed to connect to: " + serverUri);
                 }
             });
-
-
         } catch (MqttException ex){
             ex.printStackTrace();
         }
@@ -143,6 +139,7 @@ public class PahoExampleActivity extends AppCompatActivity{
 
     private void addToHistory(String mainText){
         System.out.println("LOG: " + mainText);
+        Toast.makeText(getBaseContext(), mainText, Toast.LENGTH_LONG).show();
         mAdapter.add(mainText);
         Snackbar.make(findViewById(android.R.id.content), mainText, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();

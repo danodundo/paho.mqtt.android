@@ -7,14 +7,35 @@ android {
     defaultConfig {
         applicationId "paho.mqtt.java.example"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+    }
+    signingConfigs {
+        releaseConfig {
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+        }
+        release {
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+        }
+        debug {
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     dexOptions {
@@ -44,6 +65,8 @@ dependencies {
 }
 
 configurations.compile.exclude module: 'org.eclipse.paho.client.mqttv3'
-task debug << {
-    configurations.compile.each { println it}
+task debug  {
+    doLast {
+        configurations.compile.each { println it}
+    }
 }

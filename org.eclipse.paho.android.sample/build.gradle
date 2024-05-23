@@ -7,9 +7,29 @@ android {
     defaultConfig {
         applicationId rootProject.ext.sampleArchivesBaseName
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 33
         versionCode 1
         versionName "0.1"
+    }
+    signingConfigs {
+        releaseConfig {
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+        }
+        release {
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+        }
+        debug {
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+        }
     }
     buildTypes {
         release {
@@ -49,6 +69,8 @@ task publishAPK(type: Copy) {
 
 
 configurations.compile.exclude module: 'org.eclipse.paho.client.mqttv3'
-task debug << {
-    configurations.compile.each { println it}
+task debug {
+    doLast {
+        configurations.compile.each { println it}
+    }
 }
